@@ -1,5 +1,4 @@
-const workoutRoutes = require('./routes/workouts.js'); // import router
-
+const Workout = require("../models/workoutModel")
 
 // get all workouts
 const getWorkouts = async (req, res) => {
