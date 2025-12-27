@@ -6,9 +6,9 @@ interface TitleProps {
 
 function Title({ text1, text2 }: TitleProps) {
   return (
-    <HStack mb={4} p={4}>
+    <HStack mt={4} p={4} justifyContent={'center'} alignItems={'center'}>
         <Text color={'blue.600'} fontWeight={'bold'} fontSize={'2xl'} as={'h1'}>{text1}</Text>
-        <Text color={'blue.600'} fontWeight={'bold'} fontSize={'2xl'} as={'h1'}>{text2}</Text>
+        <Text color={'black'} fontWeight={'bold'} fontSize={'2xl'} as={'h1'}>{text2}</Text>
     </HStack>
   )
 }

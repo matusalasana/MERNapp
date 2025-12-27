@@ -1,7 +1,11 @@
+import NewWorkoutForm from "../../components/NewWorkoutForm"
 
 function Workout() {
   return (
-    <div>Workout</div>
+
+    
+    <NewWorkoutForm />
+
   )
 }
 
