@@ -1,50 +1,54 @@
-
-
-
-import { useEffect, useState } from "react"
-import WorkoutDetails from "../../components/WorkoutDetails"
-import { Text } from "@chakra-ui/react"
-import Title from "../../components/Title"
-
-type Workout = {
-  _id: string
-  title: string
-  load: number
-  reps: number
-  createdAt: string
-  updatedAt: string
-}
+import WorkoutDetails from "../../components/WorkoutDetails";
+import { Text, Spinner, Box } from "@chakra-ui/react";
+import Title from "../../components/Title";
+import { useWorkouts } from "../../context/workoutContext";
 
 function Home() {
+  const { workouts, isLoading, isError, error } = useWorkouts();
 
-  const [workouts, setWorkouts] = useState<Workout[]>([])
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minH="200px">
+        <Spinner size="xl" />
+      </Box>
+    );
+  }
 
-  useEffect(() => {
-
-    const fetchData = async () => {
-    const res = await fetch("/api/workouts")
-    const data = await res.json()
-
-    if (res.ok) {
-      setWorkouts(data)
-    }
-
-    }
-
-    fetchData()
-    
-  }, [])
+  // Handle error state
+  if (isError) {
+    return (
+      <Text mx={4} my={4}>
+        {error?.message || "Failed to load workouts. Please try again."}
+      </Text>
+    );
+  }
 
   return (
     <div>
-        <Title text1="YOUR" text2="WORKOUTS" />
-        <Text px={4}>Showing {workouts.length} workouts</Text>
-        {workouts && workouts.map((workout) => (
-          <WorkoutDetails title={workout.title} load={workout.load} reps={workout.reps} createdAt={workout.createdAt} updatedAt={workout.updatedAt} key={workout._id} />
-        ))}
-
+      <Title text1="YOUR" text2="WORKOUTS" />
+      <Text px={4} py={2}>
+        Showing {workouts.length} {workouts.length === 1 ? 'workout' : 'workouts'}
+      </Text>
+      
+      {workouts.length === 0 ? (
+        <Text px={4} py={4} textAlign="center" color="gray.500">
+          No workouts found. Create your first workout to get started!
+        </Text>
+      ) : (
+        workouts.map((workout) => (
+          <WorkoutDetails 
+            title={workout.title} 
+            load={workout.load} 
+            reps={workout.reps} 
+            createdAt={workout.createdAt} 
+            updatedAt={workout.updatedAt} 
+            key={workout._id}
+          />
+        ))
+      )}
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
