@@ -2,6 +2,9 @@
 
 
 import { useEffect, useState } from "react"
+import WorkoutDetails from "../../components/WorkoutDetails"
+import { Text } from "@chakra-ui/react"
+import Title from "../../components/Title"
 
 type Workout = {
   _id: string
@@ -21,7 +24,6 @@ function Home() {
     const fetchData = async () => {
     const res = await fetch("/api/workouts")
     const data = await res.json()
-    console.log(data)
 
     if (res.ok) {
       setWorkouts(data)
@@ -35,14 +37,10 @@ function Home() {
 
   return (
     <div>
-        <h1>Home Page</h1>
+        <Title text1="YOUR" text2="WORKOUTS" />
+        <Text px={4}>Showing {workouts.length} workouts</Text>
         {workouts && workouts.map((workout) => (
-          <div key={workout._id}>
-            <h2>{workout.title}</h2>
-            <p>Load: {workout.load} kg</p>
-            <p>Reps: {workout.reps}</p>
-            <p>Created At: {new Date(workout.createdAt).toLocaleDateString()}</p>
-          </div>
+          <WorkoutDetails title={workout.title} load={workout.load} reps={workout.reps} createdAt={workout.createdAt} updatedAt={workout.updatedAt} key={workout._id} />
         ))}
 
     </div>
